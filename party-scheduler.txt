@@ -1,0 +1,51 @@
+    import java.util.*;
+    import java.lang.*;
+    import java.text.*;
+    import java.io.*;
+    import java.math.*;
+    class Main
+    {
+    	public static void main (String[] args) throws IOException
+    	{
+    	Scanner in=new Scanner(System.in);
+    	PrintWriter out=new PrintWriter(System.out);
+    	int w=in.nextInt();
+    	int n=in.nextInt();
+    	while(w!=0 && n!=0){
+    		int[] cost=new int[n];
+    		int[] fun=new int[n];
+    		for(int i=0;i<n;i++){
+    			cost[i]=in.nextInt();
+    			fun[i]=in.nextInt();
+    		}
+    		int[][] ks=new int[n+1][w+1];
+    		for(int i=0;i<=n;i++){
+    			for(int wt=0;wt<=w;wt++){
+    				if(i==0|| wt==0)
+    					ks[i][wt]=0;
+    				else if(cost[i-1]<=wt){
+    					if(ks[i-1][wt]>=ks[i-1][wt-cost[i-1]]+fun[i-1]){
+    						ks[i][wt]=ks[i-1][wt];
+    					}
+    					else{
+    						ks[i][wt]=ks[i-1][wt-cost[i-1]]+fun[i-1];
+    					}
+    				}
+    				else{
+    					ks[i][wt]=ks[i-1][wt];
+    				}
+    			}
+    		}
+    		int ans=-1;
+    		for(int i=1;i<=w;i++)
+    			if(ks[n][i]==ks[n][w]){
+    				ans=i;
+    				break;
+    			}
+    			System.out.println(ans+" "+ks[n][w]);
+    			System.out.println();
+    			 w=in.nextInt();
+    			 n=in.nextInt();
+    	}
+    }
+    } 
